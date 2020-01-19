@@ -17,11 +17,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 async fn spawn_sleeper(id: &str, timeout: &str) -> Result<(), Box<dyn std::error::Error>> {
     println!("started job {}", id);
 
-    let exit_status = Command::new("/bin/sleep")
+    let child = Command::new("/bin/sleep")
         .arg(timeout)
         .spawn()
-        .unwrap()
-        .await?;
+        .unwrap();
+
+    println!("pid = {}", child.id());
+
+    let exit_status = child.await?;
 
     println!("finished job {}: {}", id, exit_status);
 

@@ -1,5 +1,6 @@
 use pidfd::PidFd;
 use std::{io, process::Command};
+use std::os::unix::io::AsRawFd;
 
 fn main() {
     futures::executor::block_on(async move {
@@ -17,12 +18,15 @@ fn main() {
 async fn spawn_sleeper(id: &str, timeout: &str) -> io::Result<()> {
     println!("started job {}", id);
 
-    let exit_status = Command::new("/bin/sleep")
+    let pidfd = Command::new("/bin/sleep")
         .arg(timeout)
         .spawn()
         .map(PidFd::from)
-        .unwrap()
-        .into_future()
+        .unwrap();
+
+    println!("pidfd={:?}", pidfd.as_raw_fd());
+
+    let exit_status = pidfd.into_future()
         .await?;
 
     println!("finished job {}: {}", id, exit_status);
