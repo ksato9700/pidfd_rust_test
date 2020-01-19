@@ -1,0 +1,11 @@
+[package]
+name = "sleepers_tokio"
+version = "0.1.0"
+authors = ["Ken Sato <ksato9700@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "0.2", features = ["full"] }
+futures = "0.3.1"
