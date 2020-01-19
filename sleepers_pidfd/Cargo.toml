@@ -1,5 +1,5 @@
 [package]
-name = "pidfd_rust_test"
+name = "sleepers_pidfd"
 version = "0.1.0"
 authors = ["ksato"]
 edition = "2018"
